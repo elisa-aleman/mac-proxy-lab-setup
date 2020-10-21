@@ -2,6 +2,27 @@
 
 This is how I set up a fresh mac to start working in machine learning and programming. My lab runs under a proxy, so all the settings have that one extra ...sigh... task to work correctly. I keep this tutorial handy in case I do a clean OS install or if I need to check some of my initial settings.
 
+<!-- MarkdownTOC -->
+
+- Basic Settings
+- Setup proxy system wise
+    - Normal settings
+    - Time settings
+- Setup proxy settings in bash
+- Install Homebrew
+    - Install Xcode Command Line Tools
+    - Install Homebrew under a proxy
+- Curl proxy settings
+- Install Python
+    - Install useful python libraries
+- Install and setup Git
+    - Install Git Large File System
+    - Make a new Git \(LFS\) repository from local
+    - Check your branches in git log history in a pretty line
+
+<!-- /MarkdownTOC -->
+
+
 ## Basic Settings
 
 Setup root password:
