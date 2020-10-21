@@ -4,25 +4,26 @@ This is how I set up a fresh mac to start working in machine learning and progra
 
 <!-- MarkdownTOC -->
 
-- Basic Settings
-- Setup proxy system wise
-    - Normal settings
-    - Time settings
-- Setup proxy settings in bash
-- Install Homebrew
-    - Install Xcode Command Line Tools
-    - Install Homebrew under a proxy
-- Curl proxy settings
-- Install Python
-    - Install useful python libraries
-- Install and setup Git
-    - Install Git Large File System
-    - Make a new Git \(LFS\) repository from local
-    - Check your branches in git log history in a pretty line
+- [Basic Settings](#basic-settings)
+- [Setup proxy system wise](#setup-proxy-system-wise)
+    - [Normal settings](#normal-settings)
+    - [Time settings](#time-settings)
+- [Setup proxy settings in bash](#setup-proxy-settings-in-bash)
+- [Install Homebrew](#install-homebrew)
+    - [Install Xcode Command Line Tools](#install-xcode-command-line-tools)
+    - [Install Homebrew under a proxy](#install-homebrew-under-a-proxy)
+- [Curl proxy settings](#curl-proxy-settings)
+- [Install Python](#install-python)
+    - [Install useful python libraries](#install-useful-python-libraries)
+- [Install and setup Git](#install-and-setup-git)
+    - [Install Git Large File System](#install-git-large-file-system)
+    - [Make a new Git \(LFS\) repository from local](#make-a-new-git-lfs-repository-from-local)
+    - [Check your branches in git log history in a pretty line](#check-your-branches-in-git-log-history-in-a-pretty-line)
 
 <!-- /MarkdownTOC -->
 
 
+<a id="basic-settings"></a>
 ## Basic Settings
 
 Setup root password:
@@ -38,8 +39,10 @@ I can't work without seeing hidden files, so first, open up the terminal and:
 defaults write com.apple.finder AppleShowAllFiles YES
 ```
 
+<a id="setup-proxy-system-wise"></a>
 ## Setup proxy system wise
 
+<a id="normal-settings"></a>
 ### Normal settings
 
 First, know the {PROXY_HOST} url and the {PORT} that you need to access in your specific place of work. Then put those in the system settings as appropriate.
@@ -60,6 +63,7 @@ Bypass proxy settings for these Hosts & Domains:
 
 Depending on your organization, setting a HOST_URL to bypass here might also be necessary. Check with your administrator.
 
+<a id="time-settings"></a>
 ### Time settings
 
 Some proxies need you to set up the time of the computer to match the network in order to work correctly. Mine does at least. So the settings are such:
@@ -71,6 +75,7 @@ Set Date and Time automatically:
 
 The {TIME_URL} will depend on your organization, so check with your administrator.
 
+<a id="setup-proxy-settings-in-bash"></a>
 ## Setup proxy settings in bash
 
 So now that the system settings are out of the way, we need to setup the proxy addresses in bash so that programs we run take those variables, since the system setup doesn't reach deep enough for several tools we use.
@@ -107,6 +112,7 @@ Press CTRL+O to write, press ENTER to keep the name, then press CTRL+X to close 
 
 Relaunch the terminal.
 
+<a id="install-homebrew"></a>
 ## Install Homebrew
 
 For more info, click [here](https://brew.sh).
@@ -120,6 +126,7 @@ First we need to consider the macOS Requirements from their website:
 
 As it says in the third requirement, we need the Command Line Tools for Xcode.
 
+<a id="install-xcode-command-line-tools"></a>
 ### Install Xcode Command Line Tools
 
 We have 3 options:
@@ -144,6 +151,7 @@ Xcode as an app is really heavy, so if you don't intend to work directly on the 
 
 For this option, you also need to sign up to be an Apple Developer. 
 
+<a id="install-homebrew-under-a-proxy"></a>
 ### Install Homebrew under a proxy
 
 Now that we have the CLT, we can proceed.
@@ -165,6 +173,7 @@ And finally alias `brew` so it always uses your proxy settings:
 alias brew="https_proxy={PROXY_HOST}:{PORT} brew"
 ```
 
+<a id="curl-proxy-settings"></a>
 ## Curl proxy settings
 
 Right there installing Homebrew we used explicit proxy settings on the curl command to avoid any issues, but to avoid doing this every time for future uses of curl, we also need to setup proxy settings.
@@ -178,6 +187,7 @@ And add the following:
 proxy = {PROXY_HOST}:{PORT} 
 ```
 
+<a id="install-python"></a>
 ## Install Python
 
 Mac already has a system used python but it is better to avoid using it as it interacts with the system, so we install a local version with Homebrew.
@@ -210,6 +220,7 @@ pip3 -V
 
 Considering that you want the python 3 paired with the pip 3, check which versions match.
 
+<a id="install-useful-python-libraries"></a>
 ### Install useful python libraries
 
 This is my generic fresh start install so I can work. There's more libraries with complicated installations in other repositories of mine, and you might not wanna run this particular piece of code without checking what I'm doing first. For example, you might have a specific version of Tensorflow that you want, or some of these you won't use. But I'll leave it here as reference.
@@ -218,6 +229,7 @@ This is my generic fresh start install so I can work. There's more libraries wit
 pip3 install numpy scipy statsmodels matplotlib more_itertools pandas sklearn beautifulsoup4 retry requests selenium gensim nltk langdetect sympy tqdm pyclustering tensorflow tflearn minepy keras
 ```
 
+<a id="install-and-setup-git"></a>
 ## Install and setup Git
 
 Mac already has git installed (that's how we installed homebrew too), but we can update it and manage it with homebrew.
@@ -273,6 +285,7 @@ Also, let's add `.DS_Store` to .gitignore_global as well.
 
 press ESC, then type `:wq` then hit ENTER.
 
+<a id="install-git-large-file-system"></a>
 ### Install Git Large File System
 
 This is for files larger than 50 MB to be able to be used in Git. Still, GitLFS has some limitations if you don't buy data packages to increase your usage limit. By default you get 1GB of storage and 1GB of bandwidth (how much you push or pull per month). For 5$USD, you can add a *data pack* that adds 50GB bandwith and 50GB Git LFS storage.
@@ -303,6 +316,7 @@ export HTTPS_PROXY=http://{PROXY_HOST}:{PORT}
 
 So the `https_proxy` variables still point to a `http://` address. It's not the best but in my network there was no other choice. 
 
+<a id="make-a-new-git-lfs-repository-from-local"></a>
 ### Make a new Git (LFS) repository from local
 
 Now that we have Git and Python installed, we can make our first project. I like to leave this part of the tutorial in even if it doesn't classify as a setup because using Git and GitLFS was confusing at first.
@@ -398,6 +412,7 @@ git push --set-upstream origin master
 
 You only need to write --set-upstream origin master the first time for normal `push`, after this just write push. For git lfs you always have to write it.
 
+<a id="check-your-branches-in-git-log-history-in-a-pretty-line"></a>
 ### Check your branches in git log history in a pretty line
 
 This makes your history tree pretty and easy to understand inside of the terminal.
