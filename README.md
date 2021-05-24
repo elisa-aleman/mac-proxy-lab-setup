@@ -444,6 +444,53 @@ And you run it like:
 git adog
 ```
 
+## Install and setup Ruby, Bundler and Jekyll for websites
+
+I also make websites on my free time, and lots of researchers have their projects on a github pages website. For this, I like to use Jekyll in combination with github pages. First lets install all our dependencies.
+
+```
+brew install ruby
+```
+
+Then, we have to add to the $PATH so that ruby gems are found:
+
+```
+echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.bash_profile
+echo 'export PATH="/usr/local/opt/ruby/bin:/usr/local/lib/ruby/gems/X.X.0/bin:$PATH"' >> ~/.bash_profile
+echo 'export PATH="$HOME/.gem/ruby/X.X.0/bin:$PATH"' >> ~/.bash_profile
+source ~/.bash_profile
+```
+
+Replace `X.X` with whichever version you installed.
+
+```
+gem install --user-install bundler jekyll
+```
+
+This should install both of them as user-install, but if errors occur just install separately instead of together.
+
+
+Now it's installed! Well, to make a Jekyll Github Page I followed this tutorial, so go ahead and do it:
+
+https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll
+
+Now, once you have your webiste repository and you're ready to test the jekyll serve, do the following:
+
+```
+cd (your_repository_here)
+bundle init
+bundle add jekyll
+bundle add webrick
+```
+
+And then all that's left to do is to serve the website with jekyll!
+
+```
+bundle exec jekyll serve
+```
+
+Now you can work on the website and look at how it changes on screen.
+
 ---
 
 That is all for now. This is my initial setup for the lab environment under a proxy. If I have any projects that need further tinkering, that goes on another repository / tutorial.
