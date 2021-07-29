@@ -34,7 +34,8 @@ sudo passwd root
 ```
 
 Hidden files visibility:
-I can't work without seeing hidden files, so first, open up the terminal and:
+I can't work without seeing hidden files, so in the newer versions of MacOSX we can do `CMD+Shift+.` and the hidden files will appear. 
+If this doesn't work, open up the terminal and:
 ```
 defaults write com.apple.finder AppleShowAllFiles YES
 ```
@@ -45,19 +46,19 @@ defaults write com.apple.finder AppleShowAllFiles YES
 
 First, know the {PROXY_HOST} url and the {PORT} that you need to access in your specific place of work. Then put those in the system settings as appropriate.
 
-Settings > Network > Advanced > Proxies
+`Settings > Network > Advanced > Proxies`
 
 Web Proxy (HTTP)
-{PROXY_HOST}:{PORT}
+`{PROXY_HOST}:{PORT}`
 
 Secure Proxy (HTTPS)
-{PROXY_HOST}:{PORT}
+`{PROXY_HOST}:{PORT}`
 
 FTP Proxy
-{PROXY_HOST}:{PORT}
+`{PROXY_HOST}:{PORT}`
 
 Bypass proxy settings for these Hosts & Domains:
-*.local, 169.254/16, 127.0.0.1, HOST_URL
+`*.local, 169.254/16, 127.0.0.1, HOST_URL`
 
 Depending on your organization, setting a HOST_URL to bypass here might also be necessary. Check with your administrator.
 
@@ -76,10 +77,10 @@ The {TIME_URL} will depend on your organization, so check with your administrato
 
 So now that the system settings are out of the way, we need to setup the proxy addresses in bash so that programs we run take those variables, since the system setup doesn't reach deep enough for several tools we use.
 
-So we will add these settings to `.bash_profile` to load each time we login to our user session. 
+So we will add these settings to `.zprofile` to load each time we login to our user session. 
 
 ```
-sudo nano .bash_profile
+sudo nano .zprofile
 ```
 
 This will open a text editor inside the terminal. If the file is new it will be empty.
@@ -104,7 +105,7 @@ alias lab_server="ssh -p {PORT} {USERNAME}@{HOST_IP_ADDRESS}"
 
 Of course, you'll need your own {PORT} and {USERNAME} and {HOST_IP_ADDRESS} here, depending on where you want to log in.
 
-Press CTRL+O to write, press ENTER to keep the name, then press CTRL+X to close the editor
+Press `CTRL+O` to write, press `ENTER` to keep the name, then press `CTRL+X` to close the editor
 
 Relaunch the terminal.
 
@@ -166,6 +167,9 @@ And finally alias `brew` so it always uses your proxy settings:
 alias brew="https_proxy={PROXY_HOST}:{PORT} brew"
 ```
 
+Otherwise, if you're not under a proxy just follow the instructions here:
+https://docs.brew.sh/Installation
+
 ## Curl proxy settings
 
 Right there installing Homebrew we used explicit proxy settings on the curl command to avoid any issues, but to avoid doing this every time for future uses of curl, we also need to setup proxy settings.
@@ -181,42 +185,48 @@ proxy = {PROXY_HOST}:{PORT}
 
 ## Install Python
 
-Mac already has a system used python but it is better to avoid using it as it interacts with the system, so we install a local version with Homebrew.
+Mac already has a system used python but it is better to avoid using it as it interacts with the system, so we install a local version with Pyenv. Pyenv also makes it so that pip and python are always matched for each other in the correct version.
 
-Now this is in case you only expect to use one version of python throughout your projects. If you need different versions for different projects (Maybe caused by tensorflow updates vs other libraries updates...), you should follow this tutorial:
+This is specially useful if you need different versions for different projects (Maybe caused by tensorflow updates vs other libraries updates...), you should follow these tutorials:
 
 https://opensource.com/article/19/5/python-3-default-mac
+https://opensource.com/article/20/4/pyenv
 
-Otherwise, let's move on:
-
-```
-brew install python3
-```
-
-Make sure to check which version you got and if pip connects to it.
 
 ```
-python -V
-python3 -V
+brew install pyenv
+```
 
+Now let's install and set the latest version:
+```
+pyenv install 3.9.5
+pyenv global 3.9.5
+
+```
+
+And then we can add it to our PATH so that everytime we open `python` it's the pyenv one and not the system one:
+
+```
+echo 'PATH=$(pyenv root)/shims:$PATH' >> ~/.zprofile
+source ~/.zprofile
+```
+
+We can confirm we are using the correct one:
+
+```
+pyenv versions
 which python
-which python3
-
+python -V
 which pip
-which pip3
-
 pip -V
-pip3 -V
 ```
-
-Considering that you want the python 3 paired with the pip 3, check which versions match.
 
 ### Install useful python libraries
 
 This is my generic fresh start install so I can work. There's more libraries with complicated installations in other repositories of mine, and you might not wanna run this particular piece of code without checking what I'm doing first. For example, you might have a specific version of Tensorflow that you want, or some of these you won't use. But I'll leave it here as reference.
 
 ```
-pip3 install numpy scipy statsmodels matplotlib more_itertools pandas sklearn beautifulsoup4 retry requests selenium gensim nltk langdetect sympy tqdm pyclustering tensorflow tflearn minepy keras
+pip install numpy scipy statsmodels matplotlib more_itertools pandas sklearn beautifulsoup4 retry requests selenium gensim nltk langdetect sympy tqdm pyclustering tensorflow tflearn minepy keras
 ```
 
 ## Install and setup Git
@@ -286,7 +296,7 @@ brew install git-lfs
 
 Now I personally had issues with git-lfs not pushing or pulling because of my proxy.
 
-This was fixed by checking my exported variables in `.bash_profile`.
+This was fixed by checking my exported variables in `.zprofile`.
 
 The problem was it was set up like this:
 
@@ -441,10 +451,10 @@ brew install ruby
 Then, we have to add to the $PATH so that ruby gems are found:
 
 ```
-echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.bash_profile
-echo 'export PATH="/usr/local/opt/ruby/bin:/usr/local/lib/ruby/gems/X.X.0/bin:$PATH"' >> ~/.bash_profile
-echo 'export PATH="$HOME/.gem/ruby/X.X.0/bin:$PATH"' >> ~/.bash_profile
-source ~/.bash_profile
+echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.zprofile
+echo 'export PATH="/usr/local/opt/ruby/bin:/usr/local/lib/ruby/gems/X.X.0/bin:$PATH"' >> ~/.zprofile
+echo 'export PATH="$HOME/.gem/ruby/X.X.0/bin:$PATH"' >> ~/.zprofile
+source ~/.zprofile
 ```
 
 Replace `X.X` with whichever version you installed.
