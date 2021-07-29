@@ -452,12 +452,31 @@ Then, we have to add to the $PATH so that ruby gems are found:
 
 ```
 echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.zprofile
-echo 'export PATH="/usr/local/opt/ruby/bin:/usr/local/lib/ruby/gems/X.X.0/bin:$PATH"' >> ~/.zprofile
-echo 'export PATH="$HOME/.gem/ruby/X.X.0/bin:$PATH"' >> ~/.zprofile
+echo 'export PATH="/usr/local/opt/ruby/bin:$PATH"' >> ~/.zprofile
+echo 'export PATH="~/.local/share/gem/ruby/X.X.X/bin:$PATH"' >> ~/.zprofile
 source ~/.zprofile
 ```
 
-Replace `X.X` with whichever version you installed.
+Where `X.X.X ` is the version you have installed.
+
+In my case it was:
+
+```
+echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.zprofile
+echo 'export PATH="/usr/local/opt/ruby/bin:$PATH"' >> ~/.zprofile
+echo 'export PATH="~/.local/share/gem/ruby/3.0.0/bin:$PATH"' >> ~/.zprofile
+source ~/.zprofile
+```
+
+Check that we're indeed using the Homebrew version of ruby:
+
+```
+which ruby
+```
+Which should output this:
+```
+/usr/local/opt/ruby/bin/ruby
+```
 
 ```
 gem install --user-install bundler jekyll
@@ -483,6 +502,17 @@ And then all that's left to do is to serve the website with jekyll!
 
 ```
 bundle exec jekyll serve
+```
+
+If you get an error like:
+```
+Could not find webrick-1.7.0 in any of the sources
+Run `bundle install` to install missing gems.
+```
+
+Do as it says and just run:
+```
+bundle install
 ```
 
 Now you can work on the website and look at how it changes on screen.
