@@ -496,7 +496,7 @@ Which should output this:
 ```
 
 ```
-gem install --user-install bundler jekyll
+gem install --user-install bundler jekyll jekyll-sitemap
 ```
 
 This should install both of them as user-install, but if errors occur just install separately instead of together.
@@ -512,10 +512,21 @@ Now, once you have your webiste repository and you're ready to test the jekyll s
 cd (your_repository_here)
 bundle init
 bundle add jekyll
+bundle add jekyll-sitemap
 bundle add webrick
 ```
 
 And then all that's left to do is to serve the website with jekyll!
+Also for the sitemaps make sure to check this tutorial:
+
+https://github.com/jekyll/jekyll-sitemap
+
+And add this to your `_config.yml`
+```
+url: "https://example.com" # the base hostname & protocol for your site
+plugins:
+  - jekyll-sitemap
+```
 
 ```
 bundle exec jekyll serve
