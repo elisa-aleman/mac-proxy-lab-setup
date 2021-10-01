@@ -545,6 +545,17 @@ bundle install
 
 Now you can work on the website and look at how it changes on screen.
 
+By the way, if you are hosting on GitHub Pages and have a custom domain, you need to add these to the DNS
+
+```
+Type    Name    Points to               TTL
+a       @       185.199.108.153         600 seconds
+a       @       185.199.109.153         600 seconds
+a       @       185.199.110.153         600 seconds
+a       @       185.199.111.153         600 seconds
+cname   www     your-username.github.io 600 seconds   
+```
+
 <a id="install-mactex-and-latexdiff"></a>
 ## Install MacTeX and latexdiff
 
