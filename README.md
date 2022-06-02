@@ -5,6 +5,7 @@ This is how I set up a fresh mac to start working in machine learning and progra
 <!-- MarkdownTOC autolink="true" autoanchor="true" -->
 
 - [Basic Settings](#basic-settings)
+    - [Install SublimeText](#install-sublimetext)
 - [Setup proxy system wise](#setup-proxy-system-wise)
     - [Normal settings](#normal-settings)
     - [Time settings](#time-settings)
@@ -35,12 +36,53 @@ https://www.cyberciti.biz/faq/how-to-change-root-password-on-macos-unix-using-te
 sudo passwd root
 ```
 
+- Set up the screen lock command so you can do it every time you stand up:
+
+https://achekulaev.medium.com/lock-screen-with-cmd-l-l-global-hotkey-on-macos-high-sierra-3c596b76026a
+
+- Set up your WiFi connection.
+- For ease of use, make hidden files and file extensions visible.
+
 Hidden files visibility:
 I can't work without seeing hidden files, so in the newer versions of MacOSX we can do `CMD+Shift+.` and the hidden files will appear. 
 If this doesn't work, open up the terminal and:
 ```
 defaults write com.apple.finder AppleShowAllFiles YES
 ```
+
+
+<a id="install-sublimetext"></a>
+### Install SublimeText
+
+- Install SublimeText4 for ease of use (this is my personal favorite, but it's not necessary)
+
+https://www.sublimetext.com/download
+
+- Paste the SublimeText4 preferences (my personal preferences)
+
+```
+{
+    "ignored_packages":
+    [
+        "Vintage",
+    ],
+    "spell_check": true,
+    "tab_size": 4,
+    "translate_tabs_to_spaces": true,
+    "copy_with_empty_selection": false
+}
+```
+
+For the moment, there's no equivalent to `sudo` that I know of, so we skip the root password setup as well.
+
+Also, Sublime Text is all about the plugins. Install Package Control by typing CTRL+Shift+P, then typing "Install Package Control"
+
+Then here's some cool packages to try:
+
+- LaTeXTools
+- MarkdownTOC
+- MarkdownPreview
+
 
 <a id="setup-proxy-system-wise"></a>
 ## Setup proxy system wise
@@ -571,6 +613,8 @@ which latexdiff
 
 For using these I've made a few helper files, which can be seen here:
 https://github.com/elisa-aleman/latex_helpers
+
+Also Install the SublimeText LaTeXTools package.
 
 ---
 
