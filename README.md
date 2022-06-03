@@ -14,12 +14,17 @@ This is how I set up a fresh mac to start working in machine learning and progra
     - [Install Xcode Command Line Tools](#install-xcode-command-line-tools)
     - [Install Homebrew under a proxy](#install-homebrew-under-a-proxy)
 - [Curl proxy settings](#curl-proxy-settings)
-- [Install Python](#install-python)
-    - [Install useful python libraries](#install-useful-python-libraries)
+- [Install Python with pyenv](#install-python-with-pyenv)
+    - [Install virtualenv](#install-virtualenv)
+    - [Useful Data Science libraries](#useful-data-science-libraries)
+- [Install and setup Flask for Python Web Development](#install-and-setup-flask-for-python-web-development)
 - [Install and setup Git](#install-and-setup-git)
+    - [Check your branches in git log history in a pretty line](#check-your-branches-in-git-log-history-in-a-pretty-line)
+    - [GitHub Markdown math expressions for README.md, etc.](#github-markdown-math-expressions-for-readmemd-etc)
+    - [GitLab Markdown math expressions for README.md, etc.](#gitlab-markdown-math-expressions-for-readmemd-etc)
     - [Install Git Large File System](#install-git-large-file-system)
     - [Make a new Git \(LFS\) repository from local](#make-a-new-git-lfs-repository-from-local)
-    - [Check your branches in git log history in a pretty line](#check-your-branches-in-git-log-history-in-a-pretty-line)
+    - [Manage multiple GitHub or GitLab accounts](#manage-multiple-github-or-gitlab-accounts)
 - [Install and setup Ruby, Bundler and Jekyll for websites](#install-and-setup-ruby-bundler-and-jekyll-for-websites)
 - [Install MacTeX and latexdiff](#install-mactex-and-latexdiff)
 
@@ -235,8 +240,8 @@ And add the following:
 proxy = {PROXY_HOST}:{PORT} 
 ```
 
-<a id="install-python"></a>
-## Install Python
+<a id="install-python-with-pyenv"></a>
+## Install Python with pyenv
 
 Mac already has a system used python but it is better to avoid using it as it interacts with the system, so we install a local version with Pyenv. Pyenv also makes it so that pip and python are always matched for each other in the correct version.
 
@@ -274,14 +279,177 @@ which pip
 pip -V
 ```
 
-<a id="install-useful-python-libraries"></a>
-### Install useful python libraries
+<a id="install-virtualenv"></a>
+### Install virtualenv
+
+Virtualenv allows me to install different libraries under pip for specific projects.
+
+```
+pip install virtualenv
+```
+
+Usage guide is here:<br>
+https://mothergeo-py.readthedocs.io/en/latest/development/how-to/venv-win.html
+
+<a id="useful-data-science-libraries"></a>
+### Useful Data Science libraries
 
 This is my generic fresh start install so I can work. There's more libraries with complicated installations in other repositories of mine, and you might not wanna run this particular piece of code without checking what I'm doing first. For example, you might have a specific version of Tensorflow that you want, or some of these you won't use. But I'll leave it here as reference.
 
 ```
-pip install numpy scipy statsmodels matplotlib more_itertools pandas sklearn beautifulsoup4 retry requests selenium gensim nltk langdetect sympy tqdm pyclustering tensorflow tflearn minepy keras
+pip install numpy scipy statsmodels matplotlib \
+sklearn beautifulsoup4 requests selenium gensim \
+nltk langdetect sympy pyclustering \
+tensorflow tflearn keras minepy
 ```
+
+Although some of these (specifically minepy) need the Visual Studio C++ Build Tools as a dependency, so install it first:<br>
+https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
+```
+pip install minepy
+```
+
+And some more python libraries that will be useful for regular tasks:
+
+```
+pip install more_itertools pandas pathlib tqdm retry
+```
+
+<a id="install-and-setup-flask-for-python-web-development"></a>
+## Install and setup Flask for Python Web Development
+
+I'm using this guide:
+https://flask.palletsprojects.com/en/2.1.x/installation/#install-flask
+
+For Web Development, it's apparently better to make a Virtual Environment to install flask project-wise instead of system or user level.
+
+First we go to our project and make the virtual environment.
+
+```
+cd my-project
+python -m venv venv
+. venv/scripts/activate
+```
+it might also be
+```
+. venv/bin/activate
+```
+so if one fails try the other.
+
+Activate results in the python and pip versions to be internal to the project now and active in the bash:
+
+```
+which python
+>>> .... my-project\venv/Scripts/python
+
+pip --version
+pip 22.1 from c:\users\...\my-project\venv\lib\site-packages\pip (python 3.9)
+```
+
+So since this pip is empty, let's install ONLY what we need for the project:
+
+```
+pip install --upgrade pip
+pip install selenium beautifulsoup4 pandas pathlib retry
+pip install flask
+```
+
+Now let's test it:
+
+I'm using this guide here:
+
+https://flask.palletsprojects.com/en/2.1.x/quickstart/
+
+Under: `my-project/python/hello.py`
+```
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
+```
+Then in bash:
+
+```
+cd my-project/python
+export FLASK_APP=hello
+flask run
+```
+and it should return:
+
+```
+ * Serving Flask app 'hello' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
+```
+
+Unlike Jekyll, it won't update as you edit, unless you set up a development environment variable:
+
+```
+export FLASK_APP=hello
+export FLASK_ENV=development
+flask run
+```
+
+It will update, but you still have to click refresh on the screen.
+
+```
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    return "<h1>Hello, World!</h1>"
+```
+
+Now to make the project a package and keep running under the same structure as before, now I use this structure: (which by the way you can output with `tree /F /A | clip` on the CMD)
+
+```
+my-project
+|   .gitignore
+|   README.md
+|   requirements.txt
+|   
++---logs
+|       tasklog.md
+|       
++---python
+|   |   ProjectPaths.py
+|   |   
+|   +---package
+|   |   |   module.py
+|   |   |   __init__.py
+|   |   |   
+|   |   \---__pycache__
+|   |           
+|   +---tests
+|   |   |   0_test.py
+|   |   |   
+|   |   \---__pycache__
+|   |           
+|   \---__pycache__
+|           
+\---venv
+```
+
+`ProjectPaths.py` is just a bunch of methods I like to call to make directories without much hassle.
+
+To run the tests and the files in the package, now the command is like this:
+
+```
+cd my-project/python
+python -m tests.0_test
+```
+
+Notice that it's a `.` instead of a `/` and also there's no `.py`
+It should now run and import as if from the parent directory `python`
 
 <a id="install-and-setup-git"></a>
 ## Install and setup Git
@@ -298,15 +466,18 @@ Then setup the configuration. Make an account at [GitHub](https://github.com) to
 git config --global http.proxy http://{PROXY_HOST}:{PORT}
 git config --global user.name {YOUR_USERNAME}
 git config --global user.email {YOUR_EMAIL}
-git config --global core.editor nano
-git config --global merge.conflictstyle diff3
 git config --global color.ui auto
+git config --global merge.conflictstyle diff3
+git config --global core.editor nano
 git config --global core.autocrlf input
+git config --global core.fileMode false
 git config --global pull.ff only
 ```
 
-This should make a file .gitconfig with the following text
+This should make a file `~/.gitconfig` with the following text
 ```
+# ~/.gitconfig
+
 [http]
     proxy = http://{PROXY_HOST}:{PORT}
 [user]
@@ -319,9 +490,14 @@ This should make a file .gitconfig with the following text
 [core]
     editor = nano
     autocrlf = input
+    fileMode = false
 [pull]
     ff = only
+[alias]
+    adog = log --all --decorate --oneline --graph
 ```
+
+That last one, `git adog` is very useful as I explain in [Check your branches in git log history in a pretty line](#check-your-branches-in-git-log-history-in-a-pretty-line)
 
 Now to make your Mac ignore those pesky Icon? files in git:
 
@@ -338,6 +514,209 @@ while on the same line, ctrl + v, ENTER, ctrl + v, ENTER
 Also, let's add `.DS_Store` to .gitignore_global as well.
 
 press ESC, then type `:wq` then hit ENTER.
+
+<a id="check-your-branches-in-git-log-history-in-a-pretty-line"></a>
+### Check your branches in git log history in a pretty line
+
+This makes your history tree pretty and easy to understand inside of the terminal.
+I found this in https://stackoverflow.com/a/35075021
+
+```
+git log --all --decorate --oneline --graph
+```
+
+Not everyone would be doing a git log all the time, but when you need it just remember: 
+"A Dog" = git log --all --decorate --oneline --graph
+
+Actually, let's set an alias:
+
+```
+git config --global alias.adog "log --all --decorate --oneline --graph"
+```
+
+This adds the following to the .gitconfig file:
+
+```
+[alias]
+        adog = log --all --decorate --oneline --graph
+```
+
+And you run it like:
+
+```
+git adog
+```
+
+<a id="github-markdown-math-expressions-for-readmemd-etc"></a>
+### GitHub Markdown math expressions for README.md, etc.
+
+Following this guide, math is different in GitLab markdown than say, GitHub or LaTeX.
+However, inside of the delimiters, it renders it using KaTeX, which uses LaTeX math syntax! 
+
+https://docs.gitlab.com/ee/user/markdown.html#math
+
+Inline: 
+```
+> $a^2 + b^2 = c^2$
+```
+
+Renders as: $a^2 + b^2 = c^2$
+
+Block:
+```
+> $$a^2 + b^2 = c^2$$
+```
+
+Renders as:
+
+$$a^2 + b^2 = c^2$$
+
+But it only supports one line of math, so for multiple lines you have to do this:
+
+```
+> $$a^2 + b^2 = c^2$$
+> <!-- (line break is important) -->
+> $$c = \sqrt{ a^2 + b^2 }$$
+```
+
+Renders as:
+
+$$a^2 + b^2 = c^2$$
+
+$$c = \sqrt{ a^2 + b^2 }$$
+
+It can even display matrices and the like:
+
+```
+> $$
+> l_1 = 
+> \begin{bmatrix}
+>     \begin{bmatrix}
+>         x_1 & y_1
+>     \end{bmatrix} \\
+>     \begin{bmatrix}
+>         x_2 & y_2
+>     \end{bmatrix} \\
+>     ... \\
+>     \begin{bmatrix}
+>         x_n & y_n
+>     \end{bmatrix} \\
+> \end{bmatrix}
+> $$
+```
+
+$$
+l_1 = 
+\begin{bmatrix}
+    \begin{bmatrix}
+        x_1 & y_1
+    \end{bmatrix} \\
+    \begin{bmatrix}
+        x_2 & y_2
+    \end{bmatrix} \\
+    ... \\
+    \begin{bmatrix}
+        x_n & y_n
+    \end{bmatrix} \\
+\end{bmatrix}
+$$
+
+
+However, % comments will break the environment.
+
+Math syntax in LaTeX:
+
+https://katex.org/docs/supported.html
+
+<a id="gitlab-markdown-math-expressions-for-readmemd-etc"></a>
+### GitLab Markdown math expressions for README.md, etc.
+
+Following this guide, math is different in GitLab markdown than say, GitHub or LaTeX.
+However, inside of the delimiters, it renders it using KaTeX, which uses LaTeX math syntax! 
+
+https://docs.gitlab.com/ee/user/markdown.html#math
+
+Inline: 
+```
+> $`a^2 + b^2 = c^2`$
+```
+
+Renders as: $`a^2 + b^2 = c^2`$
+
+Block:
+```
+> ```math
+> a^2 + b^2 = c^2
+> ```
+```
+
+Renders as:
+
+```math
+a^2 + b^2 = c^2
+```
+
+But it only supports one line of math, so for multiple lines you have to do this:
+
+```
+> ```math
+> a^2 + b^2 = c^2
+> ```
+> ```math
+> c = \sqrt{ a^2 + b^2 }
+> ```
+```
+
+Renders as:
+
+```math
+a^2 + b^2 = c^2
+```
+```math
+c = \sqrt{ a^2 + b^2 }
+```
+
+It can even display matrices and the like:
+
+```
+> ```math
+> l_1 = 
+> \begin{bmatrix}
+>     \begin{bmatrix}
+>         x_1 & y_1
+>     \end{bmatrix} \\
+>     \begin{bmatrix}
+>         x_2 & y_2
+>     \end{bmatrix} \\
+>     ... \\
+>     \begin{bmatrix}
+>         x_n & y_n
+>     \end{bmatrix} \\
+> \end{bmatrix}
+> ```
+```
+
+```math
+l_1 = 
+\begin{bmatrix}
+    \begin{bmatrix}
+        x_1 & y_1
+    \end{bmatrix} \\
+    \begin{bmatrix}
+        x_2 & y_2
+    \end{bmatrix} \\
+    ... \\
+    \begin{bmatrix}
+        x_n & y_n
+    \end{bmatrix} \\
+\end{bmatrix}
+```
+
+However, % comments will break the environment.
+
+Math syntax in LaTeX:
+
+https://katex.org/docs/supported.html
 
 <a id="install-git-large-file-system"></a>
 ### Install Git Large File System
@@ -466,37 +845,183 @@ git push --set-upstream origin master
 
 You only need to write --set-upstream origin master the first time for normal `push`, after this just write push. For git lfs you always have to write it.
 
-<a id="check-your-branches-in-git-log-history-in-a-pretty-line"></a>
-### Check your branches in git log history in a pretty line
+<a id="manage-multiple-github-or-gitlab-accounts"></a>
+### Manage multiple GitHub or GitLab accounts
 
-This makes your history tree pretty and easy to understand inside of the terminal.
-I found this in https://stackoverflow.com/a/35075021
+Because I want to update my personal code when I find better ways to program at work, I want to push and pull from my personal GitHub account aside from the work GitLab projects. **CAUTION: DON'T UPLOAD COMPANY SECRETS TO YOUR PERSONAL ACCOUNT**
 
+To be able to do this, I followed these guides:<br>
+https://blog.gitguardian.com/8-easy-steps-to-set-up-multiple-git-accounts/
+
+
+https://medium.com/the-andela-way/a-practical-guide-to-managing-multiple-github-accounts-8e7970c8fd46
+
+
+1. Generate an SSH key
+First, create an SSH key for your personal account:
 ```
-git log --all --decorate --oneline --graph
+ssh-keygen -t rsa -b 4096 -C "your_personal_email@example.com" -f ~/.ssh/<personal_key> 
 ```
-
-Not everyone would be doing a git log all the time, but when you need it just remember: 
-"A Dog" = git log --all --decorate --oneline --graph
-
-Actually, let's set an alias:
-
+Then for your work account:
 ```
-git config --global alias.adog "log --all --decorate --oneline --graph"
-```
-
-This adds the following to the .gitconfig file:
-
-```
-[alias]
-        adog = log --all --decorate --oneline --graph
+ssh-keygen -t rsa -b 4096 -C "your_work_email@company.com" -f ~/.ssh/<work_key> 
 ```
 
-And you run it like:
+2. Add a passphrase
+
+Then add a passphrase and press enter, it will ask for it twice. Press enter again.
+
+To update the passphrase for your SSH keys:
 
 ```
-git adog
+ssh-keygen -p -f ~/.ssh/<personal_key>
 ```
+
+You can check your newly created key with:
+
+```
+ls -la ~/.ssh
+```
+
+which should output <personal_key> and <personal_key>.pub.
+
+Do the same steps for the <work_key>.
+
+3. Tell ssh-agent
+
+The website has an -K tag that works for macOSX and such but we don't need it.
+
+```
+eval "$(ssh-agent -s)" && \
+ssh-add ~/.ssh/<personal_key> 
+ssh-add ~/.ssh/<work_key> 
+```
+
+4. Edit your SSH config
+
+```
+nano ~/.ssh/config
+-----------nano----------
+# Work account - default
+Host <some_host_name_work>
+  HostName <HOST>:<PORT>
+  User git
+  IdentityFile ~/.ssh/<work_key> 
+
+# Personal account
+Host <personal_host_name>
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/<personal_key>
+
+CTRL+O
+CTRL+X
+-------------------------
+```
+
+5. Copy the SSH public key
+
+```
+cat ~/.ssh/<personal_key>.pub | clip
+```
+
+Then paste on your respective website settings, such as the GitHub SSH settings page. Title it something you'll know it's your work computer.
+
+Same for your <work_key>
+
+6. Structure your workspace for different profiles
+
+Now, for each key pair (aka profile or account), we will create a .conf file to make sure that your individual repositories have the user settings overridden accordingly.
+Let’s suppose your home directory is like that:
+
+```
+/myhome/
+    |__.gitconfig
+    |__work/
+    |__personal/
+```
+
+We are going to create two overriding .gitconfigs for each dir like this:
+
+```
+/myhome/
+|__.gitconfig
+|__work/
+     |_.gitconfig.work
+|__personal/
+    |_.gitconfig.pers
+```
+
+Of course the folder and filenames can be whatever you prefer.
+
+7. Set up your Git configs
+
+In the personal git projects folder, make `.gitconfig.pers`
+
+```
+nano ~/personal/.gitconfig.pers
+---------------nano-----------------
+# ~/personal/.gitconfig.pers
+ 
+[user]
+email = your_personal_email@example.com
+name = Your Name
+ 
+[github] #or gitlab or whatever
+user = "personal-username"
+ 
+[core]
+sshCommand = “ssh -i ~/.ssh/<personal_key>”
+
+```
+
+
+```
+
+# ~/work/.gitconfig.work
+ 
+[user]
+email = your_work_email@company.com
+name = Your Name
+ 
+[github] #or gitlab or whatever
+user = "work_username"
+
+[core]
+sshCommand = “ssh -i ~/.ssh/<work_key>”
+
+
+```
+
+And finally add this to the end of your original main `.gitconfig` file:
+
+```
+[includeIf “gitdir:~/personal/”] # include for all .git projects under personal/ 
+path = ~/personal/.gitconfig.pers
+ 
+[includeIf “gitdir:~/work/”]
+path = ~/work/.gitconfig.work
+```
+
+Now finally to confirm if it worked, go to any work project you have and type the following:
+
+```
+cd ~/work/work-project
+git config user.email
+```
+
+It should be your work e-mail.
+
+Now go to a personal project:
+
+```
+cd ~/personal/personal-project
+git config user.email
+```
+
+And it should output your personal e-mail.
+
+And done! When you push or pull from the personal account you might encounter some 2 factor authorizations at login, but otherwise it's ready to work on both personal and work projects.
 
 <a id="install-and-setup-ruby-bundler-and-jekyll-for-websites"></a>
 ## Install and setup Ruby, Bundler and Jekyll for websites
