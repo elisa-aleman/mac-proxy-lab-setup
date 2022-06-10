@@ -88,6 +88,18 @@ Then here's some cool packages to try:
 - MarkdownTOC
 - MarkdownPreview
 
+In MarkdownTOC.sublime-settings, paste the following for hyperlink markdowns and compatibility with MarkdownPreview:
+
+```
+{
+  "defaults": {
+    "autoanchor": true,
+    "autolink": true,
+    "markdown_preview": "github"
+  },
+}
+```
+
 
 <a id="setup-proxy-system-wise"></a>
 ## Setup proxy system wise
