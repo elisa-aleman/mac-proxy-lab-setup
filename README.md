@@ -27,6 +27,10 @@ This is how I set up a fresh mac to start working in machine learning and progra
     - [Manage multiple GitHub or GitLab accounts](#manage-multiple-github-or-gitlab-accounts)
 - [Install and setup Ruby, Bundler and Jekyll for websites](#install-and-setup-ruby-bundler-and-jekyll-for-websites)
 - [Install MacTeX and latexdiff](#install-mactex-and-latexdiff)
+- [Accessibility Stuff](#accessibility-stuff)
+    - [Accessible Color Palettes with Paletton](#accessible-color-palettes-with-paletton)
+    - [Reading tools for Neurodivergent people](#reading-tools-for-neurodivergent-people)
+    - [Reading white PDFs](#reading-white-pdfs)
 
 <!-- /MarkdownTOC -->
 
@@ -1152,6 +1156,72 @@ For using these I've made a few helper files, which can be seen here:
 https://github.com/elisa-aleman/latex_helpers
 
 Also Install the SublimeText LaTeXTools package.
+
+<a id="accessibility-stuff"></a>
+## Accessibility Stuff
+
+<a id="accessible-color-palettes-with-paletton"></a>
+### Accessible Color Palettes with Paletton 
+
+When designing new things it's important to keep in mind color theory, as well as accessibility for the visually impaired and color blind people, etc. But that's so much time one could spend doing so much else, so here's a tool that can help with that and also visualizing how other people with different ranges of color vision would perceive it. It's called Paletton.
+
+https://paletton.com
+
+<a id="reading-tools-for-neurodivergent-people"></a>
+### Reading tools for Neurodivergent people
+
+There was a new tool developed called "Bionic Reading", which bolds the beginnings of words so that our eyes glide over them more easily, basically making a tool for speed reading without having to train specifically for that. Lots of neurodivergent people such as myself (I have ADHD and am autistic), have a hard time following long texts or focusing when there is too much information at the same time (say, with very small line spacing). This new tool has been praised by the ND (neurodivergent) community, since making it available for businesses or companies to use would mean more accessibility in everyday services...  or at least it was until they decided to charge an OUTRAGEOUS amount of money to implement it, making it obviously not attractive for companies to implement and therefore ruining it for everyone.
+
+That is why someone decided to make "Not Bionic Reading" which is, legally speaking, not the same thing as Bionic Reading and therefore can be made available for everyone as Open Source.
+
+Here's the usable link:
+https://not-br.neocities.org/
+
+Have fun reading!
+
+<a id="reading-white-pdfs"></a>
+### Reading white PDFs
+
+If you ever need to read a PDF on the Microsoft Edge browser, you can create a snippet to execute on the Dev Console, as per this post.
+
+https://www.reddit.com/r/edge/comments/nhnflv/comment/hgejdwz/?utm_source=share&utm_medium=web2x&context=3
+
+> So, I've wanted this feature pretty badly as well and I've found a workaround which doesn't involve inverting the whole OS but still takes some extra steps:
+>
+> - Open the PDF you want to read
+> - Right click > Inspect Element
+> - Select Console tab
+> - Paste the code given below
+> - Hit enter
+> - Profit!
+
+```
+let backgroundColor = PDFViewer.EDGE_PDFVIEWER_BACKGROUND_COLOR_LIGHT;
+viewer.plugin_.setAttribute('background-color', backgroundColor);
+viewer.pluginController_.postMessage({
+    type: 'backgroundColorChanged',
+    backgroundColor
+});
+document.getElementById('document-container').style.filter = 'invert()';
+document.getElementById('layout-container').style.filter = 'invert()';
+```
+
+> You can utilize the snippets feature in DevTools to save the above code. To do that, do:
+> 
+> - Hit F12 or Ctrl + Shift + I to open DevTools
+> - Once the DevTools is open, press Ctrl + Shift + P and type "new snippet" and choose the first option
+> - Paste the above code
+> - Right click "Script snippet #2" > Rename > "dark mode pdf"
+> - Hit enter to rename
+> - Close DevTools
+> 
+> If you did the above to save that script, the next time, you can perform the following steps to activate dark mode:
+> 
+> - Open PDF
+> - Right click > Inspect Element
+> - Press Ctrl + P
+> - Type exclamation "!"
+> - Hit enter (or select the snippet if you have multiple and press enter)
 
 ---
 
