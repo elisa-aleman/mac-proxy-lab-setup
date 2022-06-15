@@ -31,6 +31,8 @@ This is how I set up a fresh mac to start working in machine learning and progra
     - [Accessible Color Palettes with Paletton](#accessible-color-palettes-with-paletton)
     - [Reading tools for Neurodivergent people](#reading-tools-for-neurodivergent-people)
     - [Reading white PDFs](#reading-white-pdfs)
+        - [Firefox](#firefox)
+        - [Microsoft Edge](#microsoft-edge)
 
 <!-- /MarkdownTOC -->
 
@@ -1182,6 +1184,33 @@ Have fun reading!
 <a id="reading-white-pdfs"></a>
 ### Reading white PDFs
 
+<a id="firefox"></a>
+#### Firefox
+
+https://pncnmnp.github.io/blogs/firefox-dark-mode.html
+
+> After hunting on the web for about 30 minutes, I found this thread on Bugzilla. It turns out starting with Firefox 60, extensions are no longer allowed to interact with the native pdf viewer. Determined, I decided to locally modify the CSS rendered by Firefox's PDF viewer. The steps for the same are:
+>
+> - Open Firefox and press Alt to show the top menu, then click on Help → Troubleshooting Information
+> - Click the Open Directory button beside the Profile Directory entry
+> - Create a folder named chrome in the directory that opens
+> - In the chrome folder, create a CSS file with the name userContent.css
+> - Open the userContent.css file and insert -
+
+```
+#viewerContainer > #viewer > .page > .canvasWrapper > canvas {
+    filter: grayscale(100%);
+    filter: invert(100%);
+}
+```
+s
+> - On Firefox's URL bar, type about:config.
+> - Search for toolkit.legacyUserProfileCustomizations.stylesheets and set it to true.
+> - Restart Firefox and fire up a PDF file to see the change!
+
+<a id="microsoft-edge"></a>
+#### Microsoft Edge
+
 If you ever need to read a PDF on the Microsoft Edge browser, you can create a snippet to execute on the Dev Console, as per this post.
 
 https://www.reddit.com/r/edge/comments/nhnflv/comment/hgejdwz/?utm_source=share&utm_medium=web2x&context=3
@@ -1222,6 +1251,7 @@ document.getElementById('layout-container').style.filter = 'invert()';
 > - Press Ctrl + P
 > - Type exclamation "!"
 > - Hit enter (or select the snippet if you have multiple and press enter)
+
 
 ---
 
