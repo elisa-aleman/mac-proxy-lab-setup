@@ -6,7 +6,7 @@ This is how I set up a fresh mac to start working in machine learning and progra
 
 - [Basic Settings](#basic-settings)
     - [Install SublimeText](#install-sublimetext)
-        - [Easy GitLab or GitHub math: Add paired $ signs to the keybinds](#easy-gitlab-or-github-math-add-paired--signs-to-the-keybinds)
+        - [Easy TeX math: Add paired $ signs to the keybinds](#easy-tex-math-add-paired--signs-to-the-keybinds)
 - [Setup proxy system wise](#setup-proxy-system-wise)
     - [Normal settings](#normal-settings)
     - [Time settings](#time-settings)
@@ -28,6 +28,10 @@ This is how I set up a fresh mac to start working in machine learning and progra
     - [Manage multiple GitHub or GitLab accounts](#manage-multiple-github-or-gitlab-accounts)
 - [Install and setup Ruby, Bundler and Jekyll for websites](#install-and-setup-ruby-bundler-and-jekyll-for-websites)
 - [Install MacTeX and latexdiff](#install-mactex-and-latexdiff)
+- [Shell Scripting for convenience](#shell-scripting-for-convenience)
+    - [Basic flag setup with getopts](#basic-flag-setup-with-getopts)
+    - [Argparse-bash by nhoffman](#argparse-bash-by-nhoffman)
+    - [LaTeX helpers](#latex-helpers)
 - [Accessibility Stuff](#accessibility-stuff)
     - [Accessible Color Palettes with Paletton](#accessible-color-palettes-with-paletton)
     - [Reading tools for Neurodivergent people](#reading-tools-for-neurodivergent-people)
@@ -105,12 +109,20 @@ In MarkdownTOC.sublime-settings, paste the following for hyperlink markdowns and
 }
 ```
 
-<a id="easy-gitlab-or-github-math-add-paired--signs-to-the-keybinds"></a>
-#### Easy GitLab or GitHub math: Add paired $ signs to the keybinds
+<a id="easy-tex-math-add-paired--signs-to-the-keybinds"></a>
+#### Easy TeX math: Add paired $ signs to the keybinds
 
-Preferences > Key Bindings:
+I found myself needing paired $dollar signs$ for math expressions in either LaTeX, GitLab with KeTeX or GitHub also with a different syntax but still some interpretation of TeX.
 
-Add this inside the brackets:
+Searching for [how to do it on macros](https://forum.sublimetext.com/t/snippet-wrap-current-line-or-selection/53285), I found this post about keybindings which is a way better solution:
+
+https://stackoverflow.com/questions/34115090/sublime-text-2-trying-to-escape-the-dollar-sign
+
+Which, as long as we implement the double escaped dollar sign solution, we can use freely.
+
+- Preferences > Key Bindings:
+- Add this inside the brackets:
+
 ```
 // Auto-pair dollar signs
 { "keys": ["$"], "command": "insert_snippet", "args": {"contents": "\\$$0\\$"}, "context":
@@ -1196,6 +1208,100 @@ For using these I've made a few helper files, which can be seen here:
 https://github.com/elisa-aleman/latex_helpers
 
 Also Install the SublimeText LaTeXTools package.
+
+
+<a id="shell-scripting-for-convenience"></a>
+## Shell Scripting for convenience
+
+When it comes down to it, specially when working with LaTeX or git, you find yourself making the same commands over and over again. That takes time and frustration, so I find that making scripts from time to time saves me a lot of time in the future.
+
+
+<a id="basic-flag-setup-with-getopts"></a>
+### Basic flag setup with getopts
+
+Once in a while those scripts will need some input to be more useful in as many cases as possible instead of a one time thing.
+
+Looking for how to do this I ran across [a simple StackOverflow question](https://stackoverflow.com/questions/14447406/bash-shell-script-check-for-a-flag-and-grab-its-value), which led me to the `getopts` package and its tutorial:
+
+[Getopts manual](https://archive.ph/TRzn4)
+
+This is a working example:
+
+```
+while getopts ":a:" opt; do
+  case $opt in
+    a)
+      echo "-a was triggered, Parameter: $OPTARG" >&2
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+
+```
+
+<a id="argparse-bash-by-nhoffman"></a>
+### Argparse-bash by nhoffman
+
+Now sometimes you'll want to have fancy arguments with both a shortcut name (-) and a long name (--), for example `-a` and `--doall` both pointing to the same command. In that case I recommend using nhoffman's implementation of Python's `argparse` in bash:
+
+[argparse.bash by nhoffman on GitHub](https://github.com/nhoffman/argparse-bash)
+
+<a id="latex-helpers"></a>
+### LaTeX helpers
+
+Personally, I find it tiring to try to compile a LaTeX document, only to have to run the bibliography, and then compile the document twice again so all the references are well put where they need to be, rather tiring. Also, I find that the output files are cluttering my space and I only need to see them when I run into certain errors.
+
+Also, for academic papers, I used `latexdiff` commands quite a lot, and while customizable, I noticed I needed a certain configuration for most journals and that was it.
+
+So I made [LaTeX helpers](https://github.com/elisa-aleman/latex_helpers), a couple of bash scripts that make that process faster.
+
+So instead of typing
+
+```
+pdflatex paper.tex
+bibtex paper
+pdflatex paper.tex
+pdflatex paper.tex
+open paper.tex
+rm paper.log paper.out paper.aux paper.... and so on
+```
+
+Every. Single. Time. 
+
+I just need to type:
+```
+./latexcompile.sh paper.tex --view --clean
+```
+
+and if I needed to make a latexdiff I just:
+
+```
+./my_latexdiff.sh paper_V1-1.tex paper.tex --newversion="2" --compile --view --clean
+```
+
+And there it is, a latexdiff PDF right on my screen.
+
+I would also commonly have several documents of different languages, or save my latexdiff command in another script, called `cur_compile_all.sh` or `cur_latexdiff.sh` so I didn't have to remember version numbers and stuff when working across several weeks or months.
+
+Usually with code such as:
+
+```
+cd en
+./latexcompile.sh paper.tex --view --clean --xelatex
+cd ../es
+./latexcompile.sh paper.tex --view --clean --xelatex
+cd ../jp
+./latexcompile.sh paper.tex --view --clean --xelatex
+```
+
+And so on, to save time.
 
 <a id="accessibility-stuff"></a>
 ## Accessibility Stuff
