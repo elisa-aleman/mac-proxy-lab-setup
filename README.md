@@ -94,9 +94,10 @@ Also, Sublime Text is all about the plugins. Install Package Control by typing C
 
 Then here's some cool packages to try:
 
-- LaTeXTools
-- MarkdownTOC
-- MarkdownPreview
+- [LaTeXTools](https://packagecontrol.io/packages/LaTeXTools)
+- [MarkdownTOC](https://packagecontrol.io/packages/MarkdownTOC)
+- [MarkdownPreview](https://packagecontrol.io/packages/MarkdownPreview)
+- [IncrementSelection](https://packagecontrol.io/packages/Increment%20Selection)
 
 In MarkdownTOC.sublime-settings, paste the following for hyperlink markdowns and compatibility with MarkdownPreview:
 
