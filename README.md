@@ -7,6 +7,7 @@ This is how I set up a fresh mac to start working in machine learning and progra
 - [Basic Settings](#basic-settings)
     - [Install SublimeText](#install-sublimetext)
         - [Easy TeX math: Add paired $ signs to the keybinds](#easy-tex-math-add-paired--signs-to-the-keybinds)
+    - [Easily transform 2 spaced indent to 4 spaced indent](#easily-transform-2-spaced-indent-to-4-spaced-indent)
 - [Setup proxy system wise](#setup-proxy-system-wise)
     - [Normal settings](#normal-settings)
     - [Time settings](#time-settings)
@@ -156,6 +157,18 @@ Which, as long as we implement the double escaped dollar sign solution, we can u
     ]
 },
 ```
+
+<a id="easily-transform-2-spaced-indent-to-4-spaced-indent"></a>
+### Easily transform 2 spaced indent to 4 spaced indent
+
+https://forum.sublimetext.com/t/can-i-easily-change-all-existing-2-space-indents-to-4-space-indents/40158/2
+
+- Sublime text, lower right corner
+- Click on Spaces
+- Select the current space number
+- Click Convert indentation to Tabs
+- Select the desired space number
+- Click Convert indentation to Spaces
 
 <a id="setup-proxy-system-wise"></a>
 ## Setup proxy system wise
