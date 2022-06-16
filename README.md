@@ -6,6 +6,7 @@ This is how I set up a fresh mac to start working in machine learning and progra
 
 - [Basic Settings](#basic-settings)
     - [Install SublimeText](#install-sublimetext)
+        - [Easy GitLab or GitHub math: Add paired $ signs to the keybinds](#easy-gitlab-or-github-math-add-paired--signs-to-the-keybinds)
 - [Setup proxy system wise](#setup-proxy-system-wise)
     - [Normal settings](#normal-settings)
     - [Time settings](#time-settings)
@@ -84,8 +85,6 @@ https://www.sublimetext.com/download
 }
 ```
 
-For the moment, there's no equivalent to `sudo` that I know of, so we skip the root password setup as well.
-
 Also, Sublime Text is all about the plugins. Install Package Control by typing CTRL+Shift+P, then typing "Install Package Control"
 
 Then here's some cool packages to try:
@@ -106,6 +105,45 @@ In MarkdownTOC.sublime-settings, paste the following for hyperlink markdowns and
 }
 ```
 
+<a id="easy-gitlab-or-github-math-add-paired--signs-to-the-keybinds"></a>
+#### Easy GitLab or GitHub math: Add paired $ signs to the keybinds
+
+Preferences > Key Bindings:
+
+Add this inside the brackets:
+```
+// Auto-pair dollar signs
+{ "keys": ["$"], "command": "insert_snippet", "args": {"contents": "\\$$0\\$"}, "context":
+    [
+        { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+        { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+        { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|>|$)", "match_all": true },
+        { "key": "preceding_text", "operator": "not_regex_contains", "operand": "[\\$a-zA-Z0-9_]$", "match_all": true },
+        { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.double", "match_all": true }
+    ]
+},
+{ "keys": ["$"], "command": "insert_snippet", "args": {"contents": "\\$${0:$SELECTION}\\$"}, "context":
+    [
+        { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+        { "key": "selection_empty", "operator": "equal", "operand": false, "match_all": true }
+    ]
+},
+{ "keys": ["$"], "command": "move", "args": {"by": "characters", "forward": true}, "context":
+    [
+        { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+        { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+        { "key": "following_text", "operator": "regex_contains", "operand": "^\\$", "match_all": true }
+    ]
+},
+{ "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "Packages/Default/Delete Left Right.sublime-macro"}, "context":
+    [
+        { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+        { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+        { "key": "preceding_text", "operator": "regex_contains", "operand": "\\$$", "match_all": true },
+        { "key": "following_text", "operator": "regex_contains", "operand": "^\\$", "match_all": true }
+    ]
+},
+```
 
 <a id="setup-proxy-system-wise"></a>
 ## Setup proxy system wise
