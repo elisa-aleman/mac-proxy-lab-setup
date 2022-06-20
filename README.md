@@ -1103,6 +1103,12 @@ git config user.email
 
 And it should output your personal e-mail.
 
+To clone new projects, specially private or protected ones, use the username before the website:
+
+```
+git clone https://<username>@github.com/<organization>/<repo>.git
+```
+
 And done! When you push or pull from the personal account you might encounter some 2 factor authorizations at login, but otherwise it's ready to work on both personal and work projects.
 
 <a id="install-and-setup-ruby-bundler-and-jekyll-for-websites"></a>
