@@ -107,7 +107,8 @@ In MarkdownTOC.sublime-settings, paste the following for hyperlink markdowns and
   "defaults": {
     "autoanchor": true,
     "autolink": true,
-    "markdown_preview": "github"
+    "markdown_preview": "github",
+    "uri_encoding": false
   },
 }
 ```
