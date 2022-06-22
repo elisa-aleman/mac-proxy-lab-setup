@@ -33,6 +33,7 @@ This is how I set up a fresh mac to start working in machine learning and progra
     - [Basic flag setup with getopts](#basic-flag-setup-with-getopts)
     - [Argparse-bash by nhoffman](#argparse-bash-by-nhoffman)
     - [LaTeX helpers](#latex-helpers)
+- [Install Pandoc to convert/export markdown, HTML, LaTeX, Word](#install-pandoc-to-convertexport-markdown-html-latex-word)
 - [Accessibility Stuff](#accessibility-stuff)
     - [Accessible Color Palettes with Paletton](#accessible-color-palettes-with-paletton)
     - [Reading tools for Neurodivergent people](#reading-tools-for-neurodivergent-people)
@@ -1322,6 +1323,64 @@ cd ../jp
 ```
 
 And so on, to save time.
+
+<a id="install-pandoc-to-convertexport-markdown-html-latex-word"></a>
+## Install Pandoc to convert/export markdown, HTML, LaTeX, Word
+
+I discovered this tool recently when I was asked to share a PDF of my private GitLab MarkDown notes. Of course I wouldn't share the whole repository so that it can be displayed in GitLab for them, so I searched for an alternative. 
+
+It can be installed in Windows, macOS, Linux, ChromeOS, BSD, Docker, ... it's really portable
+
+Pandoc Install:  
+https://pandoc.org/installing.html
+
+
+Pandoc Manual:  
+https://pandoc.org/MANUAL.html
+
+
+Export to PDF syntax
+```
+pandoc test1.md -s -o test1.pdf
+```
+
+Note that it uses LaTeX to convert to PDF, so UTF-8 languages (japanese, etc.) might return errors.
+
+```
+pandoc test1.md -s -o test1.pdf --pdf-engine=xelatex
+```
+
+But it doesn't load the Font for Japanese... Also, the default margins are way too wide.
+
+So, in the original markdown file preamble we need to add [Variables for LaTeX](https://pandoc.org/MANUAL.html#variables-for-latex):
+
+```
+---
+title: "Title"
+author: "Name"
+date: YYYY-MM-DD
+<!-- add the following -->
+geometry: margin=1.5cm
+output: pdf_document
+CJKmainfont: IPAMincho
+---
+```
+
+And voilà, the markdown is now a PDF.
+
+I'm still unsure if it will process the GitHub or GitLab math environments, since the syntax is different.
+
+Upon confirmation with the [User's Guide: Math](https://pandoc.org/MANUAL.html#math) section, it uses the GitHub math syntax.
+
+Inline: `$x=3$`  
+Renders as:  
+$x=3$
+
+
+Block:  `$$x=3$$`  
+Renders as:  
+$$x=3$$
+
 
 <a id="accessibility-stuff"></a>
 ## Accessibility Stuff
