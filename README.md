@@ -493,7 +493,7 @@ def hello_world():
     return "<h1>Hello, World!</h1>"
 ```
 
-Now to make the project a package and keep running under the same structure as before, now I use this structure: (which by the way you can output with `tree /F /A | clip` on the CMD)
+Now to make the project a package and keep running under the same structure as before, now I use this structure: (which by the way you can output with `tree /F /A | clip` on the CMD, or with `tree.com //f //a | clip` on Git Bash)
 
 ```
 my-project
