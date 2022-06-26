@@ -343,15 +343,27 @@ Now let's install and set the latest version:
 ```
 pyenv install 3.9.5
 pyenv global 3.9.5
-
 ```
 
 And then we can add it to our PATH so that everytime we open `python` it's the pyenv one and not the system one:
 
 ```
-echo 'PATH=$(pyenv root)/shims:$PATH' >> ~/.zprofile
+nano ~/.zprofile
+---- add in nano interface---
+export PATH=$PATH:~/.pyenv/shims
+export PYENV=~/.pyenv
+export PYENV_ROOT=~/.pyenv
+export PYENV_HOME=~/.pyenv
+
+eval "$(pyenv init -)"
+
+CTRL+O
+CTRL+X
+--------------------
 source ~/.zprofile
 ```
+
+That `eval` line I found out thanks to [this StackOverflow post](https://stackoverflow.com/questions/33321312/cannot-switch-python-with-pyenv)
 
 We can confirm we are using the correct one:
 
@@ -493,34 +505,26 @@ def hello_world():
     return "<h1>Hello, World!</h1>"
 ```
 
-Now to make the project a package and keep running under the same structure as before, now I use this structure: (which by the way you can output with `tree /F /A | clip` on the CMD, or with `tree.com //f //a | clip` on Git Bash)
+Now to make the project a package and keep running under the same structure as before, now I use this structure: (which by the way you can output with `tree -a -N -n --charset ascii | pbcopy` on the terminal if you install it with Homebrew with `brew install tree`).
 
 ```
 my-project
-|   .gitignore
-|   README.md
-|   requirements.txt
-|   
-+---logs
-|       tasklog.md
-|       
-+---python
-|   |   ProjectPaths.py
-|   |   
-|   +---package
-|   |   |   module.py
-|   |   |   __init__.py
-|   |   |   
-|   |   \---__pycache__
-|   |           
-|   +---tests
-|   |   |   0_test.py
-|   |   |   
-|   |   \---__pycache__
-|   |           
-|   \---__pycache__
-|           
-\---venv
+|-- .gitignore
+|-- README.md
+|-- logs
+|   `-- tasklog.md
+|-- python
+|   |-- ProjectPaths.py
+|   |-- __pycache__
+|   |-- package
+|   |   |-- __init__.py
+|   |   |-- __pycache__
+|   |   `-- module.py
+|   `-- tests
+|       |-- 0_test.py
+|       `-- __pycache__
+|-- requirements.txt
+`-- venv
 ```
 
 `ProjectPaths.py` is just a bunch of methods I like to call to make directories without much hassle.
@@ -941,6 +945,9 @@ https://blog.gitguardian.com/8-easy-steps-to-set-up-multiple-git-accounts/
 https://medium.com/the-andela-way/a-practical-guide-to-managing-multiple-github-accounts-8e7970c8fd46
 
 
+https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+
+
 1. Generate an SSH key
 First, create an SSH key for your personal account:
 ```
@@ -1006,7 +1013,7 @@ CTRL+X
 5. Copy the SSH public key
 
 ```
-cat ~/.ssh/<personal_key>.pub | clip
+cat ~/.ssh/<personal_key>.pub | pbcopy
 ```
 
 Then paste on your respective website settings, such as the GitHub SSH settings page. Title it something you'll know it's your work computer.
@@ -1110,6 +1117,12 @@ To clone new projects, specially private or protected ones, use the username bef
 ```
 git clone https://<username>@github.com/<organization>/<repo>.git
 ```
+
+If you have a 2 Factor Authentication, the clone might fail on the first try, because you need to generate a Personal Access Token.
+
+https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+
+And then copy and paste that as the password when the terminal asks you for user and password.s
 
 And done! When you push or pull from the personal account you might encounter some 2 factor authorizations at login, but otherwise it's ready to work on both personal and work projects.
 
