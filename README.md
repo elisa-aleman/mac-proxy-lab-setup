@@ -98,6 +98,7 @@ Then here's some cool packages to try:
 - [LaTeXTools](https://packagecontrol.io/packages/LaTeXTools)
 - [MarkdownTOC](https://packagecontrol.io/packages/MarkdownTOC)
 - [MarkdownPreview](https://packagecontrol.io/packages/MarkdownPreview)
+- [MarkdownEditing](https://packagecontrol.io/packages/MarkdownEditing)
 - [IncrementSelection](https://packagecontrol.io/packages/Increment%20Selection)
 
 In MarkdownTOC.sublime-settings, paste the following for hyperlink markdowns and compatibility with MarkdownPreview:
