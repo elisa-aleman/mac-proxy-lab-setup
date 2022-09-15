@@ -101,6 +101,7 @@ Then here's some cool packages to try:
 - [MarkdownEditing](https://packagecontrol.io/packages/MarkdownEditing)
 - [IncrementSelection](https://packagecontrol.io/packages/Increment%20Selection)
 - [Selection Evaluator](https://packagecontrol.io/packages/Selection%20Evaluator)
+- [Paste as One Line](https://packagecontrol.io/packages/Paste%20as%20One%20Line)
 
 In MarkdownTOC.sublime-settings, paste the following for hyperlink markdowns and compatibility with MarkdownPreview:
 
