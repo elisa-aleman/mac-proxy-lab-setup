@@ -99,6 +99,7 @@ Then here's some cool packages to try:
 - [MarkdownTOC](https://packagecontrol.io/packages/MarkdownTOC)
 - [MarkdownPreview](https://packagecontrol.io/packages/MarkdownPreview)
 - [MarkdownEditing](https://packagecontrol.io/packages/MarkdownEditing)
+- [Alignment](https://packagecontrol.io/packages/Alignment)
 - [IncrementSelection](https://packagecontrol.io/packages/Increment%20Selection)
 - [Selection Evaluator](https://packagecontrol.io/packages/Selection%20Evaluator)
 - [Paste as One Line](https://packagecontrol.io/packages/Paste%20as%20One%20Line)
