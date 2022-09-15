@@ -100,6 +100,7 @@ Then here's some cool packages to try:
 - [MarkdownPreview](https://packagecontrol.io/packages/MarkdownPreview)
 - [MarkdownEditing](https://packagecontrol.io/packages/MarkdownEditing)
 - [IncrementSelection](https://packagecontrol.io/packages/Increment%20Selection)
+- [Selection Evaluator](https://packagecontrol.io/packages/Selection%20Evaluator)
 
 In MarkdownTOC.sublime-settings, paste the following for hyperlink markdowns and compatibility with MarkdownPreview:
 
@@ -1113,7 +1114,7 @@ git config user.email
 
 And it should output your personal e-mail.
 
-To clone new projects, specially private or protected ones, use the username before the website:
+8. **To clone new projects**, specially private or protected ones, use the username before the website:
 
 ```
 git clone https://<username>@github.com/<organization>/<repo>.git
