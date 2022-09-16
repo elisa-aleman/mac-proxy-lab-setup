@@ -103,6 +103,7 @@ Then here's some cool packages to try:
 - [IncrementSelection](https://packagecontrol.io/packages/Increment%20Selection)
 - [Selection Evaluator](https://packagecontrol.io/packages/Selection%20Evaluator)
 - [Paste as One Line](https://packagecontrol.io/packages/Paste%20as%20One%20Line)
+- [Invert Current Color Scheme](https://packagecontrol.io/packages/Invert%20Current%20Color%20Scheme)
 
 In MarkdownTOC.sublime-settings, paste the following for hyperlink markdowns and compatibility with MarkdownPreview:
 
