@@ -19,6 +19,16 @@ This is how I set up a fresh mac to start working in machine learning and progra
 - [Install Python with pyenv](#install-python-with-pyenv)
     - [Install virtualenv](#install-virtualenv)
     - [Useful Data Science libraries](#useful-data-science-libraries)
+        - [Basic tasks:](#basic-tasks)
+        - [Plotting:](#plotting)
+        - [Basic data science and machine learning:](#basic-data-science-and-machine-learning)
+        - [Data mining / text mining / crawling / scraping websites:](#data-mining--text-mining--crawling--scraping-websites)
+        - [Natural language processing \(NLP\):](#natural-language-processing-nlp)
+        - [Neural network and machine learning:](#neural-network-and-machine-learning)
+        - [XGBoost](#xgboost)
+        - [LightGBM](#lightgbm)
+        - [MINEPY / Maximal Information Coefficient](#minepy--maximal-information-coefficient)
+        - [Computer Vision \(OpenCV\)](#computer-vision-opencv)
 - [Install and setup Flask for Python Web Development](#install-and-setup-flask-for-python-web-development)
 - [Install and setup Git](#install-and-setup-git)
     - [Check your branches in git log history in a pretty line](#check-your-branches-in-git-log-history-in-a-pretty-line)
@@ -402,29 +412,86 @@ https://mothergeo-py.readthedocs.io/en/latest/development/how-to/venv-win.html
 
 This is my generic fresh start install so I can work. Usually I'd install all of them in general, but recently I only install the necessary libraries under venv. There's more libraries with complicated installations in other repositories of mine, and you might not wanna run this particular piece of code without checking what I'm doing first. For example, you might have a specific version of Tensorflow that you want, or some of these you won't use. But I'll leave it here as reference.
 
+<a id="basic-tasks"></a>
+#### Basic tasks:
+
 ```
 pip install numpy scipy jupyter statsmodels \
-pandas pathlib tqdm retry openpyxl \
-sklearn sympy pyclustering \
-beautifulsoup4 requests selenium \
-gensim nltk langdetect \
-matplotlib adjustText plotly kaleido \
-tensorflow tflearn keras \
-torch torchaudio torchvision \
-optuna minepy
+pandas pathlib tqdm retry openpyxl
 ```
 
-Although some of these (specifically minepy) need the Visual Studio C++ Build Tools as a dependency, so install it first:<br>
+<a id="plotting"></a>
+#### Plotting:
+```
+pip install matplotlib adjustText plotly kaleido
+```
+
+<a id="basic-data-science-and-machine-learning"></a>
+#### Basic data science and machine learning:
+```
+pip install sklearn sympy pyclustering
+```
+
+<a id="data-mining--text-mining--crawling--scraping-websites"></a>
+#### Data mining / text mining / crawling / scraping websites:
+```
+pip install beautifulsoup4 requests selenium
+```
+
+<a id="natural-language-processing-nlp"></a>
+#### Natural language processing (NLP):
+```
+pip install gensim nltk langdetect
+```
+
+For Japanese NLP tools see:
+https://github.com/elisa-aleman/MeCab-python
+
+For Chinese NLP tools see:
+https://github.com/elisa-aleman/StanfordCoreNLP_Chinese
+
+<a id="neural-network-and-machine-learning"></a>
+#### Neural network and machine learning:
+```
+pip install tensorflow tflearn keras \
+torch torchaudio torchvision \
+optuna
+```
+
+<a id="xgboost"></a>
+#### XGBoost 
+
+To Install with CPU:
+```
+pip install xgboost
+```
+
+<a id="lightgbm"></a>
+#### LightGBM
+
+Install with CPU:
+
+```
+pip install lightgbm
+```
+
+<a id="minepy--maximal-information-coefficient"></a>
+#### MINEPY / Maximal Information Coefficient
+
+For Minepy / Maximal Information Coefficient, we need the Visual Studio C++ Build Tools as a dependency, so install it first:<br>
 https://visualstudio.microsoft.com/visual-cpp-build-tools/
 
 ```
 pip install minepy
 ```
 
-And some more python libraries that will be useful for regular tasks:
+<a id="computer-vision-opencv"></a>
+#### Computer Vision (OpenCV)
+
+with CPU and no extra options:
 
 ```
-pip install more_itertools pandas pathlib tqdm retry
+python -m pip install -U opencv-python opencv-contrib-python
 ```
 
 <a id="install-and-setup-flask-for-python-web-development"></a>
