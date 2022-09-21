@@ -39,7 +39,7 @@ This is how I set up a fresh mac to start working in machine learning and progra
     - [Reading tools for Neurodivergent people](#reading-tools-for-neurodivergent-people)
     - [Reading white PDFs](#reading-white-pdfs)
         - [Firefox](#firefox)
-        - [Microsoft Edge](#microsoft-edge)
+        - [Google Chrome](#google-chrome)
 
 <!-- /MarkdownTOC -->
 
@@ -104,6 +104,11 @@ Then here's some cool packages to try:
 - [Selection Evaluator](https://packagecontrol.io/packages/Selection%20Evaluator)
 - [Paste as One Line](https://packagecontrol.io/packages/Paste%20as%20One%20Line)
 - [Invert Current Color Scheme](https://packagecontrol.io/packages/Invert%20Current%20Color%20Scheme)
+- [PackageResourceViewer](https://packagecontrol.io/packages/PackageResourceViewer)
+
+Now, for the Invert Current Color Scheme, I have my own fork that works with Sublime Text 4, so use the PackageResourceViewer to replace the main python file with my code:
+ 
+https://github.com/elisa-aleman/sublime-invert-current-color-scheme
 
 In MarkdownTOC.sublime-settings, paste the following for hyperlink markdowns and compatibility with MarkdownPreview:
 
@@ -346,11 +351,11 @@ brew install pyenv
 
 Now let's install and set the latest version:
 ```
-pyenv install 3.9.5
-pyenv global 3.9.5
+pyenv install 3.10.7
+pyenv global 3.10.7
 ```
 
-And then we can add it to our PATH so that everytime we open `python` it's the pyenv one and not the system one:
+And then we can add it to our PATH so that every time we open `python` it's the pyenv one and not the system one:
 
 ```
 nano ~/.zprofile
@@ -395,13 +400,18 @@ https://mothergeo-py.readthedocs.io/en/latest/development/how-to/venv-win.html
 <a id="useful-data-science-libraries"></a>
 ### Useful Data Science libraries
 
-This is my generic fresh start install so I can work. There's more libraries with complicated installations in other repositories of mine, and you might not wanna run this particular piece of code without checking what I'm doing first. For example, you might have a specific version of Tensorflow that you want, or some of these you won't use. But I'll leave it here as reference.
+This is my generic fresh start install so I can work. Usually I'd install all of them in general, but recently I only install the necessary libraries under venv. There's more libraries with complicated installations in other repositories of mine, and you might not wanna run this particular piece of code without checking what I'm doing first. For example, you might have a specific version of Tensorflow that you want, or some of these you won't use. But I'll leave it here as reference.
 
 ```
-pip install numpy scipy statsmodels matplotlib \
-sklearn beautifulsoup4 requests selenium gensim \
-nltk langdetect sympy pyclustering \
-tensorflow tflearn keras minepy
+pip install numpy scipy jupyter statsmodels \
+pandas pathlib tqdm retry openpyxl \
+sklearn sympy pyclustering \
+beautifulsoup4 requests selenium \
+gensim nltk langdetect \
+matplotlib adjustText plotly kaleido \
+tensorflow tflearn keras \
+torch torchaudio torchvision \
+optuna minepy
 ```
 
 Although some of these (specifically minepy) need the Visual Studio C++ Build Tools as a dependency, so install it first:<br>
@@ -1445,55 +1455,44 @@ https://pncnmnp.github.io/blogs/firefox-dark-mode.html
     filter: invert(100%);
 }
 ```
-s
 > - On Firefox's URL bar, type about:config.
 > - Search for toolkit.legacyUserProfileCustomizations.stylesheets and set it to true.
 > - Restart Firefox and fire up a PDF file to see the change!
 
-<a id="microsoft-edge"></a>
-#### Microsoft Edge
+<a id="google-chrome"></a>
+#### Google Chrome
 
-If you ever need to read a PDF on the Microsoft Edge browser, you can create a snippet to execute on the Dev Console, as per this post.
+I found a solution in this post:
 
-https://www.reddit.com/r/edge/comments/nhnflv/comment/hgejdwz/?utm_source=share&utm_medium=web2x&context=3
+https://superuser.com/a/1527417
 
-> So, I've wanted this feature pretty badly as well and I've found a workaround which doesn't involve inverting the whole OS but still takes some extra steps:
+
+> The following snippet adds a div overlay to any browser tab currently displaying a PDF document.
+> 1. Open up your browser's Dev tools then browser console.
+> 2. Paste this JavaScript code in your browser console:
+
+```
+const overlay = document.createElement("div");
+
+const css = `
+    position: fixed;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    mix-blend-mode: difference;
+    z-index: 1;
+`
+overlay.setAttribute("style", css);
+
+document.body.appendChild(overlay);
+```
+
+> 3. Hit Enter
 >
-> - Open the PDF you want to read
-> - Right click > Inspect Element
-> - Select Console tab
-> - Paste the code given below
-> - Hit enter
-> - Profit!
-
-```
-let backgroundColor = PDFViewer.EDGE_PDFVIEWER_BACKGROUND_COLOR_LIGHT;
-viewer.plugin_.setAttribute('background-color', backgroundColor);
-viewer.pluginController_.postMessage({
-    type: 'backgroundColorChanged',
-    backgroundColor
-});
-document.getElementById('document-container').style.filter = 'invert()';
-document.getElementById('layout-container').style.filter = 'invert()';
-```
-
-> You can utilize the snippets feature in DevTools to save the above code. To do that, do:
-> 
-> - Hit F12 or Ctrl + Shift + I to open DevTools
-> - Once the DevTools is open, press Ctrl + Shift + P and type "new snippet" and choose the first option
-> - Paste the above code
-> - Right click "Script snippet #2" > Rename > "dark mode pdf"
-> - Hit enter to rename
-> - Close DevTools
-> 
-> If you did the above to save that script, the next time, you can perform the following steps to activate dark mode:
-> 
-> - Open PDF
-> - Right click > Inspect Element
-> - Press Ctrl + P
-> - Type exclamation "!"
-> - Hit enter (or select the snippet if you have multiple and press enter)
-
+> Special thanks: https://www.reddit.com/r/chrome/comments/e3txhi/comment/fem1cto
 
 ---
 
