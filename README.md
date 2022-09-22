@@ -39,6 +39,10 @@ This is how I set up a fresh mac to start working in machine learning and progra
     - [Manage multiple GitHub or GitLab accounts](#manage-multiple-github-or-gitlab-accounts)
 - [Install and setup Ruby, Bundler and Jekyll for websites](#install-and-setup-ruby-bundler-and-jekyll-for-websites)
 - [Install MacTeX and latexdiff](#install-mactex-and-latexdiff)
+    - [Use my LaTeX helper shell scripts for faster compilation](#use-my-latex-helper-shell-scripts-for-faster-compilation)
+    - [Make LaTeX easier in Sublime Text:](#make-latex-easier-in-sublime-text)
+    - [XeLaTeX in Japanese](#xelatex-in-japanese)
+    - [Display code sections in LaTeX](#display-code-sections-in-latex)
 - [Shell Scripting for convenience](#shell-scripting-for-convenience)
     - [Basic flag setup with getopts](#basic-flag-setup-with-getopts)
     - [Argparse-bash by nhoffman](#argparse-bash-by-nhoffman)
@@ -1321,11 +1325,152 @@ It is installed under `/Library/TeX/texbin`, but if you have any terminal sessio
 which latexdiff
 ```
 
-For using these I've made a few helper files, which can be seen here:
+<a id="use-my-latex-helper-shell-scripts-for-faster-compilation"></a>
+### Use my LaTeX helper shell scripts for faster compilation
+
 https://github.com/elisa-aleman/latex_helpers
 
-Also Install the SublimeText LaTeXTools package.
+I made these shell scripts to help in compiling faster when using bibliographies and to delete cumbersome files when not necessary every time I compile. Since they are .sh scripts, they run normally with git bash.
 
+<a id="make-latex-easier-in-sublime-text"></a>
+### Make LaTeX easier in Sublime Text:
+
+- Install Package Control.
+- Install LaTeXTools plugin.
+
+https://tex.stackexchange.com/a/85487
+
+If you have the LaTeXTools plugin, it already does that except that it is mapped on Shift+Enter instead of Enter.
+
+<a id="xelatex-in-japanese"></a>
+### XeLaTeX in Japanese
+
+For Japanese UTF-8 text in XeLaTeX:
+
+``` 
+\usepackage{xeCJK}
+```
+
+Set the fonts: these are the default, but they have no bold
+```
+\setCJKmainfont{IPAMincho} % No bold, serif
+\setCJKsansfont{IPAGothic} % No bold, sans-serif
+\setCJKmonofont{IPAGothic} % No bold, sans-serif
+```
+
+Installing fonts, for example, Aozora mincho has guaranteed bold
+
+https://web.archive.org/web/20200321102301/http://blueskis.wktk.so/AozoraMincho/download.html 
+
+Make sure to install for all users:
+
+https://stackoverflow.com/questions/55264642/how-to-force-win10-to-install-fonts-in-c-windows-fonts
+
+Set the installed font:
+
+```
+\setCJKmainfont[BoldFont=AozoraMincho-bold,AutoFakeSlant=0.15]{Aozora Mincho}
+```
+
+Japanse document style:
+
+```
+\usepackage[english,japanese]{babel} % For Japanese date format
+\usepackage{indentfirst} % For Japanese style indentation
+\setlength\parindent{11pt}
+```
+
+Japanese babel messes itemize up inside tables, so:
+
+```
+\usepackage{enumitem}
+\newlist{jpcompactitemize}{itemize}{1} % defined new list
+\setlist[jpcompactitemize]{topsep=0em, itemsep=-0.5em, label=\textbullet} % new list setup
+```
+
+<a id="display-code-sections-in-latex"></a>
+### Display code sections in LaTeX
+
+```
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[lighttt]{lmodern}
+\usepackage{listings} % to display code
+\usepackage{lstautogobble} % to indent inside latex without affecting the code, keeping the indent the code has inside
+\usepackage{anyfontsize} % for code font size
+\usepackage[os=win]{menukeys} % to display keystrokes
+
+% For the color behind the code sections:
+\usepackage{xcolor} %custom colours
+\definecolor{light-gray}{gray}{0.95} %the shade of grey that stack exchange uses
+\definecolor{editorGreen}{rgb}{0, 0.5, 0} % #007C00 -> rgb(0, 124, 0)
+
+% Make a more defined languages for nice colors
+\include{lststyle-css.sty}
+\include{lststyle-html5.sty}
+
+% Set up the code display lst options
+\lstset{
+    % for the code font and size:
+    % basicstyle=\ttfamily\small,
+    basicstyle=\ttfamily\fontsize{10}{12}\selectfont,
+    % to avoid spaces showing as brackets in strings
+    showstringspaces=false,
+    % for straight quotes in code
+    upquote=true, 
+    % for the middle tildes in the code
+    literate={~}{{\fontfamily{ptm}\selectfont \textasciitilde}}1,
+    % for the line break in long texts
+    breaklines=true,
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}, 
+    % for the keyword colors in the code
+    keywordstyle=\color{blue}\bfseries\ttfamily,
+    stringstyle=\color{purple},
+    commentstyle=\color{darkgray}\ttfamily,
+    keywordstyle={[2]{\color{editorGreen}\bfseries\ttfamily}},
+    autogobble=true % to ignore latex indents but keep code indent
+}
+
+% unnecessary in XeLaTeX
+% % For this specific document with lots of degree signs inside listings
+% \lstset{
+%     literate={°}{\textdegree}1
+% }
+
+% for straight double quotes in code
+\usepackage[T1]{fontenc}
+
+% frame set up
+\usepackage[framemethod=TikZ]{mdframed} %nice frames
+\mdfsetup{
+    backgroundcolor=light-gray,
+    roundcorner=7pt,
+    leftmargin=1,
+    rightmargin=1,
+    innerleftmargin=1em,
+    innertopmargin=0.5em,
+    innerbottommargin=0,
+    outerlinewidth=1,
+    linecolor=light-gray,
+    } 
+
+% Make it affect all lstlistings
+\BeforeBeginEnvironment{lstlisting}{\begin{mdframed}\vskip-.5\baselineskip}
+\AfterEndEnvironment{lstlisting}{\end{mdframed}}
+
+% Make colored box around inline code
+\usepackage{realboxes}
+\usepackage{xpatch}
+
+\makeatletter
+\xpretocmd\lstinline{\Colorbox{light-gray}\bgroup\appto\lst@DeInit{\egroup}}{}{}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+```
 
 <a id="shell-scripting-for-convenience"></a>
 ## Shell Scripting for convenience
@@ -1458,7 +1603,13 @@ date: YYYY-MM-DD
 <!-- add the following -->
 geometry: margin=1.5cm
 output: pdf_document
-CJKmainfont: IPAMincho
+<!-- CJKmainfont: IPAMincho #default font but no bold -->
+<!-- install this one for bold japanese: https://web.archive.org/web/20200321102301/http://blueskis.wktk.so/AozoraMincho/download.html -->
+<!-- https://stackoverflow.com/questions/55264642/how-to-force-win10-to-install-fonts-in-c-windows-fonts (install for all users) -->
+CJKmainfont: Aozora Mincho
+CJKoptions:
+- BoldFont=AozoraMincho-bold
+- AutoFakeSlant=0.15
 ---
 ```
 
