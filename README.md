@@ -1,5 +1,7 @@
 # Mac Python setup environment for Machine learning Laboratory on a proxy
 
+Note: Migrated repository to https://github.com/elisa-aleman/ai_python_dev_reference
+
 This is how I set up a fresh mac to start working in machine learning and programming. My lab runs under a proxy, so all the settings have that one extra ...sigh... task to work correctly. I keep this tutorial handy in case I do a clean OS install or if I need to check some of my initial settings.
 
 <!-- MarkdownTOC autolink="true" autoanchor="true" -->
